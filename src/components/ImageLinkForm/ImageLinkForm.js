@@ -2,6 +2,8 @@ import React from 'react';
 import './ImageLinkForm.css';
 
 const ImageLinkForm = ({onInputChange, onButtonSubmit}) => {
+  // console.log(onButtonSubmit)
+  // console.log(onInputChange)
   return (
     <div>
       <p className='f3'>{'This will detect your face'}</p>

@@ -28,10 +28,11 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      input: 'hello input',
-      imageUrl: 'hello image',
+      input: '',
+      imageUrl: '',
       box: {},
-      route: 'signin'
+      route: 'signin',
+      isSignedIn: false
     }
   }
 
@@ -70,13 +71,19 @@ class App extends Component {
   }
 
   onRouteChange = (route) => {
+    if(route === 'signout'){
+      this.setState({isSignedIn: false})
+    }
+    else if (route === 'home'){
+      this.setState({isSignedIn: true})
+    }
     this.setState({route: route});
   }
 
   render(){
     return (
       <div className="App">     
-          <Navigation onRouteChange={this.onRouteChange}/>
+          <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
           {this.state.route === 'home' ? 
             <>
                 <Logo/>

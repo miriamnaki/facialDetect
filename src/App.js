@@ -9,6 +9,14 @@ import SignIn from './components/SignIn/SignIn';
 import 'tachyons';
 import { Component } from 'react';
 
+// (  
+//   <Logo/>,
+//   <Rank/>,
+//   <ImageLinkForm onInputChange={this.onInputChange} 
+//   onButtonSubmit={this.onSubmitButton}/>,
+//   <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
+//  )
+
 // api key
 //'53e1df302c079b3db8a0a36033ed2d15'
 const app = new Clarifai.App({
@@ -30,16 +38,15 @@ class App extends Component {
     this.setState({input: event.target.value}); 
   }
   
-
   onSubmitButton = () => {
     this.setState({imageUrl: this.state.input});
 
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
     .then(response => {
-      this.displayFaceBox(this.calculateFaceLocation(response))
+      this.displayFaceBox(this.calculateFaceLocation(response));
     })
     .catch(error => {
-        console.log(error)
+        console.log(error);
     })
   }
 
@@ -58,26 +65,32 @@ class App extends Component {
   }
 
   displayFaceBox = (box) => {
-    this.setState({box: box})
+    this.setState({box: box});
+  }
+
+  onRouteChange = (route) => {
+    this.setState({route: route});
   }
 
   render(){
     return (
-      <div className="App">
-        
-          <Navigation/>
+      <div className="App">     
+          <Navigation onRouteChange={this.onRouteChange}/>
           {this.state.route === 'signin' ? 
-          <SignIn/>
-           :(  
-             <Logo/>,
-             <Rank/>,
-             <ImageLinkForm onInputChange={this.onInputChange} 
-             onButtonSubmit={this.onSubmitButton}/>,
-             <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
-           )
-
-           }
-              
+          <SignIn 
+            onRouteChange={this.onRouteChange}
+          /> :
+          <>
+            <Logo/>
+            <Rank/>
+            <ImageLinkForm 
+              onInputChange={this.onInputChange} 
+              onButtonSubmit={this.onSubmitButton}/>
+            <FaceRecognition 
+              box={this.state.box} 
+              imageUrl={this.state.imageUrl}/>
+          </>           
+          }              
       </div>
     );
   }

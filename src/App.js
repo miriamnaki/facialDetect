@@ -6,6 +6,7 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import SignIn from './components/SignIn/SignIn';
+import Register from './components/Register/Register';
 import 'tachyons';
 import { Component } from 'react';
 
@@ -76,20 +77,26 @@ class App extends Component {
     return (
       <div className="App">     
           <Navigation onRouteChange={this.onRouteChange}/>
-          {this.state.route === 'signin' ? 
-          <SignIn 
-            onRouteChange={this.onRouteChange}
-          /> :
-          <>
-            <Logo/>
-            <Rank/>
-            <ImageLinkForm 
-              onInputChange={this.onInputChange} 
-              onButtonSubmit={this.onSubmitButton}/>
-            <FaceRecognition 
-              box={this.state.box} 
-              imageUrl={this.state.imageUrl}/>
-          </>           
+          {this.state.route === 'home' ? 
+            <>
+                <Logo/>
+                <Rank/>
+                <ImageLinkForm 
+                  onInputChange={this.onInputChange} 
+                  onButtonSubmit={this.onSubmitButton}/>
+                <FaceRecognition 
+                  box={this.state.box} 
+                  imageUrl={this.state.imageUrl}/>
+            </>  : (
+              this.state.route === 'signin' ?
+              <SignIn 
+                onRouteChange={this.onRouteChange}
+              /> :
+              <Register 
+                onRouteChange={this.onRouteChange}
+              />
+            )
+                   
           }              
       </div>
     );

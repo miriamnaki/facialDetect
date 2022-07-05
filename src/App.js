@@ -5,7 +5,7 @@ import Clarifai from 'clarifai';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
-// import Particles from 'react-tsparticles';
+import SignIn from './components/SignIn/SignIn';
 import 'tachyons';
 import { Component } from 'react';
 
@@ -22,6 +22,7 @@ class App extends Component {
       input: 'hello input',
       imageUrl: 'hello image',
       box: {},
+      route: 'signin'
     }
   }
 
@@ -47,8 +48,7 @@ class App extends Component {
     const image = document.getElementById('inputImage');
     const width = Number(image.width);
     const height = Number(image.height);
-    console.log(width)
-    console.log(height)
+    
     return {
       leftCol: clarifai.left_col * width,
       topRow: clarifai.top_row * height,
@@ -58,25 +58,26 @@ class App extends Component {
   }
 
   displayFaceBox = (box) => {
-    console.log(box)
     this.setState({box: box})
-
   }
 
   render(){
-    
-
     return (
       <div className="App">
-        {/* <Particles> */}
+        
           <Navigation/>
-          <Logo/>
-          <Rank/>
-          <ImageLinkForm onInputChange={this.onInputChange} 
-          onButtonSubmit={this.onSubmitButton}/>
-          <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
+          {this.state.route === 'signin' ? 
+          <SignIn/>
+           :(  
+             <Logo/>,
+             <Rank/>,
+             <ImageLinkForm onInputChange={this.onInputChange} 
+             onButtonSubmit={this.onSubmitButton}/>,
+             <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
+           )
 
-      
+           }
+              
       </div>
     );
   }

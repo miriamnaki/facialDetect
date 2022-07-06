@@ -16,9 +16,10 @@ class SignIn extends Component{
     this.setState({signinPassword: event.target.value})
   }
 
-  onSubmitSignin = () => {
+  onSubmitSignin = (e) => {
+    e.preventDefault()
     fetch('http://localhost:3001/signin', {
-      method: 'post',
+      method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         email: this.state.signinEmail,
@@ -31,8 +32,6 @@ class SignIn extends Component{
         this.props.onRouteChange('home')
       }
     })
-
-    
   }
 
   render(){

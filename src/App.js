@@ -32,8 +32,26 @@ class App extends Component {
       imageUrl: '',
       box: {},
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
     }
+  }
+
+  loadUser = (userData) => {
+    this.setState({user: {
+      id: userData.id,
+      name: userData.name,
+      email: userData.email,
+      entries: userData.entries,
+      joined: userData.joined
+    }})
+    
   }
 
   onInputChange = (event) => {
@@ -81,12 +99,12 @@ class App extends Component {
   }
 
   // fetching data from ther server
-  componentDidMount(){
-    fetch('http://localhost:3001')
-    .then(res => res.json())
-    .then(console.log)
-    .catch(err => console.log(err))
-  }
+  // componentDidMount(){
+  //   fetch('http://localhost:3001')
+  //   .then(res => res.json())
+  //   .then(console.log)
+  //   .catch(err => console.log(err))
+  // }
 
   render(){
     return (
@@ -109,6 +127,7 @@ class App extends Component {
               /> :
               <Register 
                 onRouteChange={this.onRouteChange}
+                loadUser={this.loadUser}
               />
             )
                    

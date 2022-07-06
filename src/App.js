@@ -80,6 +80,14 @@ class App extends Component {
     this.setState({route: route});
   }
 
+  // fetching data from ther server
+  componentDidMount(){
+    fetch('http://localhost:3001')
+    .then(res => res.json())
+    .then(console.log)
+    .catch(err => console.log(err))
+  }
+
   render(){
     return (
       <div className="App">     

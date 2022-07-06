@@ -113,7 +113,10 @@ class App extends Component {
           {this.state.route === 'home' ? 
             <>
                 <Logo/>
-                <Rank/>
+                <Rank 
+                  userName={this.state.user.name}
+                  userEntries={this.state.user.entries}
+                />
                 <ImageLinkForm 
                   onInputChange={this.onInputChange} 
                   onButtonSubmit={this.onSubmitButton}/>
@@ -124,6 +127,7 @@ class App extends Component {
               this.state.route === 'signin' ?
               <SignIn 
                 onRouteChange={this.onRouteChange}
+                loadUser={this.loadUser}
               /> :
               <Register 
                 onRouteChange={this.onRouteChange}

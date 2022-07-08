@@ -10,16 +10,21 @@ import Register from './components/Register/Register';
 import 'tachyons';
 import { Component } from 'react';
 
-// (  
-//   <Logo/>,
-//   <Rank/>,
-//   <ImageLinkForm onInputChange={this.onInputChange} 
-//   onButtonSubmit={this.onSubmitButton}/>,
-//   <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
-//  )
+const initialState = {
+  input: '',
+  imageUrl: '',
+  box: {},
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
+}
 
-// api key
-//'53e1df302c079b3db8a0a36033ed2d15'
 const app = new Clarifai.App({
   apiKey: 'fac5c841f3114888ba420b05a355df61'
  });
@@ -27,20 +32,7 @@ const app = new Clarifai.App({
 class App extends Component {
   constructor(){
     super();
-    this.state = {
-      input: '',
-      imageUrl: '',
-      box: {},
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      }
-    }
+    this.state =  initialState;
   }
 
   loadUser = (userData) => {
@@ -74,6 +66,7 @@ class App extends Component {
         })
         .then(response => response.json())
         .then(count => {
+          console.log(count)
           this.setState(Object.assign(this.state.user, {entries: count}))
         })
       }
@@ -104,21 +97,13 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if(route === 'signout'){
-      this.setState({isSignedIn: false})
+      this.setState(initialState)
     }
     else if (route === 'home'){
       this.setState({isSignedIn: true})
     }
     this.setState({route: route});
   }
-
-  // fetching data from ther server
-  // componentDidMount(){
-  //   fetch('http://localhost:3001')
-  //   .then(res => res.json())
-  //   .then(console.log)
-  //   .catch(err => console.log(err))
-  // }
 
   render(){
     return (

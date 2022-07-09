@@ -1,7 +1,6 @@
 import './App.css';
 import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
-import Clarifai from 'clarifai';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
@@ -25,10 +24,6 @@ const initialState = {
   }
 }
 
-const app = new Clarifai.App({
-  apiKey: 'fac5c841f3114888ba420b05a355df61'
- });
-
 class App extends Component {
   constructor(){
     super();
@@ -42,8 +37,7 @@ class App extends Component {
       email: userData.email,
       entries: userData.entries,
       joined: userData.joined
-    }})
-    
+    }})  
   }
 
   onInputChange = (event) => {
@@ -54,7 +48,14 @@ class App extends Component {
     e.preventDefault();
     this.setState({imageUrl: this.state.input});
 
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+    fetch('http://localhost:3001/imageUrl', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+    .then(response => response.json())
     .then(response => {
       if(response){
         fetch('http://localhost:3001/image', {
@@ -133,8 +134,7 @@ class App extends Component {
                 onRouteChange={this.onRouteChange}
                 loadUser={this.loadUser}
               />
-            )
-                   
+            )                
           }              
       </div>
     );
